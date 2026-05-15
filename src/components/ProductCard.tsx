@@ -1,10 +1,26 @@
 import type { Product } from '../types';
 import { formatPrice, getDiscount } from '../utils/format';
 import { useCart } from '../context/CartContext';
+import { StarSolidIcon, StarOutlineIcon, PlusIcon } from './Icons';
 
 interface ProductCardProps {
   product: Product;
   navigate: (path: string) => void;
+}
+
+function RatingStars({ rating }: { rating: number }) {
+  const full = Math.floor(rating);
+  const empty = 5 - full;
+  return (
+    <span className="stars">
+      {Array.from({ length: full }, (_, i) => (
+        <StarSolidIcon key={`f${i}`} size={14} className="star-filled" />
+      ))}
+      {Array.from({ length: empty }, (_, i) => (
+        <StarOutlineIcon key={`e${i}`} size={14} className="star-empty" />
+      ))}
+    </span>
+  );
 }
 
 export default function ProductCard({ product, navigate }: ProductCardProps) {
@@ -32,7 +48,7 @@ export default function ProductCard({ product, navigate }: ProductCardProps) {
           {product.name}
         </h3>
         <div className="product-rating">
-          <span className="stars">{'★'.repeat(Math.floor(product.rating))}{'☆'.repeat(5 - Math.floor(product.rating))}</span>
+          <RatingStars rating={product.rating} />
           <span className="rating-text">({product.reviewCount})</span>
         </div>
         <div className="product-pricing">
@@ -52,9 +68,11 @@ export default function ProductCard({ product, navigate }: ProductCardProps) {
           className="btn-add-cart"
           onClick={() => addToCart(product)}
         >
-          + Keranjang
+          <PlusIcon size={14} /> Keranjang
         </button>
       </div>
     </div>
   );
 }
+
+export { RatingStars };

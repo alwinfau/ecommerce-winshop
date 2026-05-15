@@ -2,7 +2,17 @@ import { useState } from 'react';
 import { products } from '../data/products';
 import { formatPrice, getDiscount } from '../utils/format';
 import { useCart } from '../context/CartContext';
-import ProductCard from '../components/ProductCard';
+import ProductCard, { RatingStars } from '../components/ProductCard';
+import {
+  ShoppingCartIcon,
+  CheckCircleIcon,
+  MinusIcon,
+  PlusIcon,
+  TruckIcon,
+  ArrowUturnLeftIcon,
+  LockClosedIcon,
+  ChevronRightIcon,
+} from '../components/Icons';
 
 interface ProductDetailPageProps {
   navigate: (path: string) => void;
@@ -41,16 +51,16 @@ export default function ProductDetailPage({ navigate, params }: ProductDetailPag
     <div className="product-detail-page">
       <div className="breadcrumb">
         <a href="#/" onClick={() => navigate('/')}>Home</a>
-        <span>/</span>
+        <ChevronRightIcon size={14} />
         <a href="#/products" onClick={() => navigate('/products')}>Produk</a>
-        <span>/</span>
+        <ChevronRightIcon size={14} />
         <a
           href={`#/products?category=${product.category}`}
           onClick={() => navigate(`/products?category=${product.category}`)}
         >
           {product.category}
         </a>
-        <span>/</span>
+        <ChevronRightIcon size={14} />
         <span className="current">{product.name}</span>
       </div>
 
@@ -69,10 +79,7 @@ export default function ProductDetailPage({ navigate, params }: ProductDetailPag
           <h1>{product.name}</h1>
 
           <div className="detail-rating">
-            <span className="stars">
-              {'★'.repeat(Math.floor(product.rating))}
-              {'☆'.repeat(5 - Math.floor(product.rating))}
-            </span>
+            <RatingStars rating={product.rating} />
             <span>{product.rating}</span>
             <span className="divider">|</span>
             <span>{product.reviewCount} ulasan</span>
@@ -98,16 +105,24 @@ export default function ProductDetailPage({ navigate, params }: ProductDetailPag
 
           <div className="detail-actions">
             <div className="quantity-control">
-              <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>−</button>
+              <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>
+                <MinusIcon size={16} />
+              </button>
               <span>{quantity}</span>
-              <button onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}>+</button>
+              <button onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}>
+                <PlusIcon size={16} />
+              </button>
             </div>
             <button
               className={`btn-add-cart-lg ${addedToCart ? 'added' : ''}`}
               onClick={handleAddToCart}
               disabled={product.stock === 0}
             >
-              {addedToCart ? '✓ Ditambahkan!' : '🛒 Tambah ke Keranjang'}
+              {addedToCart ? (
+                <><CheckCircleIcon size={18} /> Ditambahkan!</>
+              ) : (
+                <><ShoppingCartIcon size={18} /> Tambah ke Keranjang</>
+              )}
             </button>
             <button
               className="btn-buy-now"
@@ -123,13 +138,13 @@ export default function ProductDetailPage({ navigate, params }: ProductDetailPag
 
           <div className="detail-features">
             <div className="detail-feature">
-              <span>🚚</span> Gratis Ongkir
+              <TruckIcon size={18} /> Gratis Ongkir
             </div>
             <div className="detail-feature">
-              <span>↩️</span> 30 Hari Pengembalian
+              <ArrowUturnLeftIcon size={18} /> 30 Hari Pengembalian
             </div>
             <div className="detail-feature">
-              <span>🔒</span> Pembayaran Aman
+              <LockClosedIcon size={18} /> Pembayaran Aman
             </div>
           </div>
         </div>

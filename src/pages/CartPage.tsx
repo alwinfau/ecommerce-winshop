@@ -1,5 +1,11 @@
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../utils/format';
+import {
+  ShoppingCartIcon,
+  TrashIcon,
+  MinusIcon,
+  PlusIcon,
+} from '../components/Icons';
 
 interface CartPageProps {
   navigate: (path: string) => void;
@@ -11,7 +17,7 @@ export default function CartPage({ navigate }: CartPageProps) {
   if (items.length === 0) {
     return (
       <div className="empty-state page-empty">
-        <span className="empty-icon">🛒</span>
+        <span className="empty-icon"><ShoppingCartIcon size={56} /></span>
         <h2>Keranjang Kosong</h2>
         <p>Belum ada produk di keranjang belanja Anda.</p>
         <button className="btn-primary" onClick={() => navigate('/products')}>
@@ -48,11 +54,11 @@ export default function CartPage({ navigate }: CartPageProps) {
               <div className="cart-item-actions">
                 <div className="quantity-control">
                   <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)}>
-                    −
+                    <MinusIcon size={14} />
                   </button>
                   <span>{item.quantity}</span>
                   <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)}>
-                    +
+                    <PlusIcon size={14} />
                   </button>
                 </div>
                 <span className="cart-item-subtotal">
@@ -62,7 +68,7 @@ export default function CartPage({ navigate }: CartPageProps) {
                   className="btn-remove"
                   onClick={() => removeFromCart(item.product.id)}
                 >
-                  🗑️
+                  <TrashIcon size={18} />
                 </button>
               </div>
             </div>

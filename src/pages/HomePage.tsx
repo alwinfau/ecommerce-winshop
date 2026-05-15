@@ -1,6 +1,14 @@
 import { products } from '../data/products';
 import { categories } from '../data/categories';
 import ProductCard from '../components/ProductCard';
+import CategoryIcon from '../components/CategoryIcon';
+import {
+  TruckIcon,
+  LockClosedIcon,
+  ArrowUturnLeftIcon,
+  ChatBubbleLeftRightIcon,
+  ArrowRightIcon,
+} from '../components/Icons';
 
 interface HomePageProps {
   navigate: (path: string) => void;
@@ -49,7 +57,9 @@ export default function HomePage({ navigate }: HomePageProps) {
       <section className="section">
         <div className="section-header">
           <h2>Kategori Populer</h2>
-          <a href="#/products" className="see-all" onClick={() => navigate('/products')}>Lihat Semua →</a>
+          <a href="#/products" className="see-all" onClick={() => navigate('/products')}>
+            Lihat Semua <ArrowRightIcon size={14} />
+          </a>
         </div>
         <div className="categories-grid">
           {categories.map((cat) => (
@@ -58,7 +68,7 @@ export default function HomePage({ navigate }: HomePageProps) {
               className="category-card"
               onClick={() => navigate(`/products?category=${cat.slug}`)}
             >
-              <span className="category-icon">{cat.icon}</span>
+              <span className="category-icon"><CategoryIcon name={cat.icon} size={32} /></span>
               <span className="category-name">{cat.name}</span>
               <span className="category-count">{cat.productCount} produk</span>
             </div>
@@ -70,7 +80,9 @@ export default function HomePage({ navigate }: HomePageProps) {
       <section className="section">
         <div className="section-header">
           <h2>Produk Terlaris</h2>
-          <a href="#/products" className="see-all" onClick={() => navigate('/products')}>Lihat Semua →</a>
+          <a href="#/products" className="see-all" onClick={() => navigate('/products')}>
+            Lihat Semua <ArrowRightIcon size={14} />
+          </a>
         </div>
         <div className="products-grid">
           {featuredProducts.map((product) => (
@@ -95,7 +107,9 @@ export default function HomePage({ navigate }: HomePageProps) {
       <section className="section">
         <div className="section-header">
           <h2>Produk Terbaru</h2>
-          <a href="#/products" className="see-all" onClick={() => navigate('/products')}>Lihat Semua →</a>
+          <a href="#/products" className="see-all" onClick={() => navigate('/products')}>
+            Lihat Semua <ArrowRightIcon size={14} />
+          </a>
         </div>
         <div className="products-grid">
           {newProducts.map((product) => (
@@ -107,22 +121,22 @@ export default function HomePage({ navigate }: HomePageProps) {
       {/* Features */}
       <section className="features-section">
         <div className="feature">
-          <span className="feature-icon">🚚</span>
+          <span className="feature-icon"><TruckIcon size={32} /></span>
           <h3>Gratis Ongkir</h3>
           <p>Untuk pesanan di atas Rp200.000</p>
         </div>
         <div className="feature">
-          <span className="feature-icon">🔒</span>
+          <span className="feature-icon"><LockClosedIcon size={32} /></span>
           <h3>Pembayaran Aman</h3>
           <p>100% transaksi terproteksi</p>
         </div>
         <div className="feature">
-          <span className="feature-icon">↩️</span>
+          <span className="feature-icon"><ArrowUturnLeftIcon size={32} /></span>
           <h3>Mudah Dikembalikan</h3>
           <p>30 hari garansi pengembalian</p>
         </div>
         <div className="feature">
-          <span className="feature-icon">💬</span>
+          <span className="feature-icon"><ChatBubbleLeftRightIcon size={32} /></span>
           <h3>Support 24/7</h3>
           <p>Tim kami siap membantu</p>
         </div>

@@ -1,4 +1,103 @@
 /* ============================================
+   ICON UTILITIES
+   ============================================ */
+svg {
+  flex-shrink: 0;
+}
+
+.star-filled {
+  color: var(--secondary);
+}
+
+.star-empty {
+  color: var(--border);
+}
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.see-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-add-cart,
+.btn-add-cart-lg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.feature-icon {
+  color: var(--primary);
+}
+
+.category-icon {
+  color: var(--primary);
+}
+
+.empty-icon {
+  color: var(--text-light);
+}
+
+.success-icon {
+  color: var(--accent);
+}
+
+.btn-remove {
+  color: var(--text-light);
+}
+
+.btn-remove:hover {
+  color: var(--danger);
+}
+
+.detail-feature {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-list button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb svg {
+  color: var(--text-light);
+}
+
+/* ============================================
    APP LAYOUT
    ============================================ */
 .app {

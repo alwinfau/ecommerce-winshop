@@ -2,6 +2,8 @@ import { useState, useMemo } from 'react';
 import { products } from '../data/products';
 import { categories } from '../data/categories';
 import ProductCard from '../components/ProductCard';
+import { MagnifyingGlassIcon } from '../components/Icons';
+import CategoryIcon from '../components/CategoryIcon';
 
 interface ProductsPageProps {
   navigate: (path: string) => void;
@@ -90,7 +92,7 @@ export default function ProductsPage({ navigate, params }: ProductsPageProps) {
                     className={selectedCategory === cat.slug ? 'active' : ''}
                     onClick={() => setSelectedCategory(cat.slug)}
                   >
-                    {cat.icon} {cat.name}
+                    <CategoryIcon name={cat.icon} size={16} /> {cat.name}
                   </button>
                 </li>
               ))}
@@ -153,7 +155,7 @@ export default function ProductsPage({ navigate, params }: ProductsPageProps) {
             </div>
           ) : (
             <div className="empty-state">
-              <span className="empty-icon">🔍</span>
+              <span className="empty-icon"><MagnifyingGlassIcon size={56} /></span>
               <h3>Produk tidak ditemukan</h3>
               <p>Coba ubah filter atau kata kunci pencarian Anda.</p>
             </div>

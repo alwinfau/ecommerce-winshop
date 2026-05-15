@@ -1,10 +1,24 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { formatPrice } from '../utils/format';
+import {
+  ShieldCheckIcon,
+  ShoppingCartIcon,
+  CheckCircleIcon,
+  BuildingLibraryIcon,
+  DevicePhoneMobileIcon,
+  BanknotesIcon,
+} from '../components/Icons';
 
 interface CheckoutPageProps {
   navigate: (path: string) => void;
+}
+
+interface PaymentOption {
+  value: string;
+  label: string;
+  icon: ReactNode;
 }
 
 export default function CheckoutPage({ navigate }: CheckoutPageProps) {
@@ -21,10 +35,16 @@ export default function CheckoutPage({ navigate }: CheckoutPageProps) {
     payment: 'transfer',
   });
 
+  const paymentOptions: PaymentOption[] = [
+    { value: 'transfer', label: 'Transfer Bank', icon: <BuildingLibraryIcon size={20} /> },
+    { value: 'ewallet', label: 'E-Wallet', icon: <DevicePhoneMobileIcon size={20} /> },
+    { value: 'cod', label: 'COD (Bayar di Tempat)', icon: <BanknotesIcon size={20} /> },
+  ];
+
   if (!isAuthenticated) {
     return (
       <div className="empty-state page-empty">
-        <span className="empty-icon">🔐</span>
+        <span className="empty-icon"><ShieldCheckIcon size={56} /></span>
         <h2>Silakan Login Terlebih Dahulu</h2>
         <p>Anda perlu login untuk melanjutkan checkout.</p>
         <button className="btn-primary" onClick={() => navigate('/login')}>
@@ -37,7 +57,7 @@ export default function CheckoutPage({ navigate }: CheckoutPageProps) {
   if (items.length === 0 && !orderPlaced) {
     return (
       <div className="empty-state page-empty">
-        <span className="empty-icon">🛒</span>
+        <span className="empty-icon"><ShoppingCartIcon size={56} /></span>
         <h2>Keranjang Kosong</h2>
         <p>Tambahkan produk terlebih dahulu sebelum checkout.</p>
         <button className="btn-primary" onClick={() => navigate('/products')}>
@@ -50,9 +70,9 @@ export default function CheckoutPage({ navigate }: CheckoutPageProps) {
   if (orderPlaced) {
     return (
       <div className="order-success">
-        <span className="success-icon">✅</span>
+        <span className="success-icon"><CheckCircleIcon size={64} /></span>
         <h2>Pesanan Berhasil!</h2>
-        <p>Terima kasih telah berbelanja di TokoKu. Pesanan Anda sedang diproses.</p>
+        <p>Terima kasih telah berbelanja di GSHOP. Pesanan Anda sedang diproses.</p>
         <p className="order-id">Order ID: #TK{Date.now().toString().slice(-8)}</p>
         <button className="btn-primary" onClick={() => navigate('/')}>
           Kembali ke Home
@@ -144,11 +164,7 @@ export default function CheckoutPage({ navigate }: CheckoutPageProps) {
           <div className="form-section">
             <h3>Metode Pembayaran</h3>
             <div className="payment-options">
-              {[
-                { value: 'transfer', label: '🏦 Transfer Bank' },
-                { value: 'ewallet', label: '📱 E-Wallet' },
-                { value: 'cod', label: '💵 COD (Bayar di Tempat)' },
-              ].map((opt) => (
+              {paymentOptions.map((opt) => (
                 <label key={opt.value} className={`payment-option ${form.payment === opt.value ? 'selected' : ''}`}>
                   <input
                     type="radio"
@@ -157,6 +173,7 @@ export default function CheckoutPage({ navigate }: CheckoutPageProps) {
                     checked={form.payment === opt.value}
                     onChange={(e) => updateField('payment', e.target.value)}
                   />
+                  {opt.icon}
                   {opt.label}
                 </label>
               ))}

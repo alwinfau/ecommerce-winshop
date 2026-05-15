@@ -2,6 +2,14 @@ import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import {
+  ShoppingCartIcon,
+  MagnifyingGlassIcon,
+  MoonIcon,
+  SunIcon,
+  Bars3Icon,
+  XMarkIcon,
+} from './Icons';
 
 interface NavbarProps {
   navigate: (path: string) => void;
@@ -32,7 +40,7 @@ export default function Navbar({ navigate, currentPage }: NavbarProps) {
     <nav className="navbar">
       <div className="navbar-container">
         <a className="navbar-brand" href="#/" onClick={() => handleNav('/')}>
-          🛒 GSHOP
+          <ShoppingCartIcon size={22} /> GSHOP
         </a>
 
         <form className="navbar-search" onSubmit={handleSearch}>
@@ -42,7 +50,9 @@ export default function Navbar({ navigate, currentPage }: NavbarProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button type="submit" aria-label="Search">🔍</button>
+          <button type="submit" aria-label="Search">
+            <MagnifyingGlassIcon size={18} />
+          </button>
         </form>
 
         <div className={`navbar-actions ${mobileMenuOpen ? 'open' : ''}`}>
@@ -65,7 +75,7 @@ export default function Navbar({ navigate, currentPage }: NavbarProps) {
             href="#/cart"
             onClick={() => handleNav('/cart')}
           >
-            🛒
+            <ShoppingCartIcon size={20} />
             {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
           </a>
 
@@ -75,7 +85,7 @@ export default function Navbar({ navigate, currentPage }: NavbarProps) {
             aria-label={theme === 'light' ? 'Aktifkan dark mode' : 'Aktifkan light mode'}
             title={theme === 'light' ? 'Dark Mode' : 'Light Mode'}
           >
-            {theme === 'light' ? '🌙' : '☀️'}
+            {theme === 'light' ? <MoonIcon size={18} /> : <SunIcon size={18} />}
           </button>
 
           {isAuthenticated ? (
@@ -101,7 +111,7 @@ export default function Navbar({ navigate, currentPage }: NavbarProps) {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Menu"
         >
-          {mobileMenuOpen ? '✕' : '☰'}
+          {mobileMenuOpen ? <XMarkIcon size={24} /> : <Bars3Icon size={24} />}
         </button>
       </div>
     </nav>
