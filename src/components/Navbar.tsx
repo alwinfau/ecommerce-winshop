@@ -9,6 +9,8 @@ import {
   SunIcon,
   Bars3Icon,
   XMarkIcon,
+  HomeIcon,
+  TagIcon,
 } from './Icons';
 
 interface NavbarProps {
@@ -37,13 +39,120 @@ export default function Navbar({ navigate, currentPage }: NavbarProps) {
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        <a className="navbar-brand" href="#/" onClick={() => handleNav('/')}>
-          <ShoppingCartIcon size={22} /> GSHOP
-        </a>
+    <>
+      <nav className="navbar">
+        <div className="navbar-container">
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setMobileMenuOpen(true)}
+            aria-label="Menu"
+          >
+            <Bars3Icon size={24} />
+          </button>
 
-        <form className="navbar-search" onSubmit={handleSearch}>
+          <a className="navbar-brand" href="#/" onClick={() => handleNav('/')}>
+            <ShoppingCartIcon size={22} /> GSHOP
+          </a>
+
+          <form className="navbar-search" onSubmit={handleSearch}>
+            <input
+              type="text"
+              placeholder="Cari produk..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button type="submit" aria-label="Search">
+              <MagnifyingGlassIcon size={18} />
+            </button>
+          </form>
+
+          <div className="navbar-actions-desktop">
+            <a
+              className={`nav-link ${currentPage === 'home' ? 'active' : ''}`}
+              href="#/"
+              onClick={() => handleNav('/')}
+            >
+              Home
+            </a>
+            <a
+              className={`nav-link ${currentPage === 'products' ? 'active' : ''}`}
+              href="#/products"
+              onClick={() => handleNav('/products')}
+            >
+              Produk
+            </a>
+            <a
+              className="nav-link cart-link"
+              href="#/cart"
+              onClick={() => handleNav('/cart')}
+            >
+              <ShoppingCartIcon size={20} />
+              {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
+            </a>
+            <button
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+              title={theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+            >
+              {theme === 'light' ? <MoonIcon size={18} /> : <SunIcon size={18} />}
+            </button>
+            {isAuthenticated ? (
+              <div className="user-menu">
+                <span className="user-name">Hai, {user?.name}</span>
+                <button className="btn-logout" onClick={logout}>Logout</button>
+              </div>
+            ) : (
+              <a
+                className="nav-link btn-login"
+                href="#/login"
+                onClick={() => handleNav('/login')}
+              >
+                Masuk
+              </a>
+            )}
+          </div>
+
+          {/* Mobile right icons */}
+          <div className="navbar-actions-mobile">
+            <button
+              className="theme-toggle-sm"
+              onClick={toggleTheme}
+              aria-label={theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+            >
+              {theme === 'light' ? <MoonIcon size={20} /> : <SunIcon size={20} />}
+            </button>
+            <a className="mobile-cart-link" href="#/cart" onClick={() => handleNav('/cart')}>
+              <ShoppingCartIcon size={22} />
+              {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Sidebar Overlay */}
+      <div
+        className={`sidebar-overlay ${mobileMenuOpen ? 'open' : ''}`}
+        onClick={() => setMobileMenuOpen(false)}
+      />
+
+      {/* Mobile Sidebar */}
+      <aside className={`sidebar ${mobileMenuOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+          <a className="navbar-brand" href="#/" onClick={() => handleNav('/')}>
+            <ShoppingCartIcon size={20} /> GSHOP
+          </a>
+          <button
+            className="sidebar-close"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Tutup menu"
+          >
+            <XMarkIcon size={24} />
+          </button>
+        </div>
+
+        {/* Search in sidebar */}
+        <form className="sidebar-search" onSubmit={handleSearch}>
           <input
             type="text"
             placeholder="Cari produk..."
@@ -55,65 +164,53 @@ export default function Navbar({ navigate, currentPage }: NavbarProps) {
           </button>
         </form>
 
-        <div className={`navbar-actions ${mobileMenuOpen ? 'open' : ''}`}>
+        <nav className="sidebar-nav">
           <a
-            className={`nav-link ${currentPage === 'home' ? 'active' : ''}`}
+            className={`sidebar-link ${currentPage === 'home' ? 'active' : ''}`}
             href="#/"
             onClick={() => handleNav('/')}
           >
+            <HomeIcon size={20} />
             Home
           </a>
           <a
-            className={`nav-link ${currentPage === 'products' ? 'active' : ''}`}
+            className={`sidebar-link ${currentPage === 'products' ? 'active' : ''}`}
             href="#/products"
             onClick={() => handleNav('/products')}
           >
+            <TagIcon size={20} />
             Produk
           </a>
           <a
-            className="nav-link cart-link"
+            className={`sidebar-link ${currentPage === 'cart' ? 'active' : ''}`}
             href="#/cart"
             onClick={() => handleNav('/cart')}
           >
             <ShoppingCartIcon size={20} />
-            {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
+            Keranjang
+            {totalItems > 0 && <span className="sidebar-badge">{totalItems}</span>}
           </a>
+        </nav>
 
-          <button
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label={theme === 'light' ? 'Aktifkan dark mode' : 'Aktifkan light mode'}
-            title={theme === 'light' ? 'Dark Mode' : 'Light Mode'}
-          >
-            {theme === 'light' ? <MoonIcon size={18} /> : <SunIcon size={18} />}
-          </button>
-
+        <div className="sidebar-footer">
           {isAuthenticated ? (
-            <div className="user-menu">
-              <span className="user-name">Hai, {user?.name}</span>
-              <button className="btn-logout" onClick={logout}>
+            <div className="sidebar-user">
+              <span className="sidebar-user-name">Hai, {user?.name}</span>
+              <button className="btn-logout" onClick={() => { logout(); setMobileMenuOpen(false); }}>
                 Logout
               </button>
             </div>
           ) : (
             <a
-              className="nav-link btn-login"
+              className="btn-primary btn-full"
               href="#/login"
               onClick={() => handleNav('/login')}
             >
-              Masuk
+              Masuk / Daftar
             </a>
           )}
         </div>
-
-        <button
-          className="mobile-menu-btn"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Menu"
-        >
-          {mobileMenuOpen ? <XMarkIcon size={24} /> : <Bars3Icon size={24} />}
-        </button>
-      </div>
-    </nav>
+      </aside>
+    </>
   );
 }
